@@ -1,0 +1,259 @@
+/* FONTE POPPINS */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* FONTE NOTO SANS */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --dark: #030712;
+  --light: #eff6ff;
+  --one: #111827;
+  --two: #1f2937;
+  --three: #374151;
+  --four: #4b5563;
+  --five: #6b7280;
+  --six: #9ca3af;
+  --seven: #d1d5db;
+  --eight: #e5e7eb;
+  --nine: #f3f4f6;
+  --ten: #f9fafb;
+  --eleven: #eff6ff;
+  --white: #ffffff;
+  --blue: #172554;
+  --bluelight: #0369a1;
+  --green: #10b710;
+  --red: #F55557;
+  --poppins: "Poppins", sans-serif;
+  --notoSans: "Noto Sans", sans-serif;
+}
+
+* {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: var(--poppins);
+  color: var(--dark);
+  text-decoration: none;
+}
+
+
+/* ALERTA MODIFICADO */
+.swal-modal {
+  background-color: var(--three);
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+.swal-title {
+  width: 95%;
+  height: 100%;
+  font-size: 22px;
+  color: var(--light);
+  letter-spacing: 0.5px;
+  margin: 0px auto;
+}
+
+.swal-text {
+  width: 85%;
+  margin: 0px auto;
+  padding: 0px;
+  color: var(--light);
+  font-size: 16px;
+  letter-spacing: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.swal-content {
+  width: 85%;
+  max-width: 85%;
+  margin: 25px auto 0px auto;
+  padding: 0px;
+}
+
+.swal-button {
+  background-color: var(--light);
+  color: var(--dark);
+} .swal-button--confirm {
+  background-color: var(--light);
+  color: var(--dark);
+} .swal-button--cancel {
+  background-color: var(--red);
+  color: white;
+}
+
+.swal-icon::before, .swal-icon::after {
+  background: transparent !important;
+  border: none !important;
+  color: transparent !important;
+}
+
+.swal-icon--success__hide-corners {
+  background: transparent !important;
+}
+
+.swal-icon--warning {
+  border-color: var(--red) !important;
+  
+}
+.swal-icon--warning__body, .swal-icon--warning__dot {
+  background-color: var(--red) !important;
+}
+
+/* FORMULARIO */
+.formulario {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px auto;
+}
+
+.formulario .input {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+
+.formulario .input input {
+  width: 100%;
+  height: 50px;
+  border: 2px solid var(--dark);
+  margin: 10px auto;
+  outline: none;
+  padding: 0px 0px 0px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--three);
+}
+
+.formulario .input label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 17px;
+  font-weight: 600;
+  background: var(--white);
+  color: var(--three);
+  padding: 0px 10px;
+  width: max-content;
+  height: max-content;
+  transition: all .3s ease-in-out;
+  pointer-events: none;
+}
+
+.formulario .input input:not(:placeholder-shown) ~ label,
+.formulario .input input:focus ~ label {
+  top: 10px;
+  left: 15px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.formulario .input-checkbox {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.formulario .input-checkbox input {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--dark);
+  margin: 10px 10px 10px 0px;
+  outline: none;
+  color: var(--three);
+  cursor: pointer;
+  box-shadow: 0px 0px 15px rgba(55, 65, 81, 0.5);
+}
+
+.formulario .input-checkbox p {
+  font-size: 16.5px;
+  font-weight: 500;
+}
+
+.formulario .button {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+
+.formulario .button button {
+  width: 100%;
+  height: 55px;
+  cursor: pointer;
+  border: 2px solid var(--blue);
+  background: var(--blue);
+  color: var(--white);
+  margin: 10px auto;
+  outline: none;
+  padding: 0px 0px 0px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0px 5px 15px var(--blue);
+  transition: all .3s ease-in-out;
+} .formulario .button button:hover,
+.formulario .button button:focus {
+  background: transparent;
+  color: var(--blue);
+  box-shadow: 0px 5px 15px var(--blue);
+} .formulario .button button:hover ~ ion-icon,
+.formulario .button button:focus ~ ion-icon {
+  color: var(--blue);
+}
+
+.formulario .button ion-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 25px;
+  color: var(--white);
+  transition: all .3s ease-in-out;
+};
+
+.formulario .p {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.formulario .p p {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 15px 0px 0px 0px;
+  color: var(--three);
+}
+
+.formulario .p p strong {
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0px 0px 0px 3px;
+  color: var(--blue);
+  text-decoration: underline;
+  transition: all .1s ease-in-out;
+}
+/* FRAMEWORKS */
+.opacity-0 {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}

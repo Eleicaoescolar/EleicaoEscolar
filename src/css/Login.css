@@ -1,0 +1,127 @@
+.container-login {
+    position: relative;
+    width: 100%;
+    max-width: 2000px;
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0px auto;
+}
+
+
+/* PARTE DO FORMULARIO (NA ESQUERDA) */
+.container-login .dados-login {
+    width: 50%;
+    height: auto;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.container-login .dados-login .formulario {
+    width: 75%;
+    max-width: 500px;
+}
+
+.container-login .dados-login .formulario h1 {
+    width: 100%;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    margin: 0px 0px 5px 0px;
+    color: var(--three);
+}
+
+
+/* PARTE DAS IMAGENS (NA DIREITA) */
+.container-login .imagem-login {
+    width: 50%;
+    height: auto;
+    background: var(--eight);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.container-login .imagem-login img {
+    width: 70%;
+    max-width: 350px;
+    margin: 0px;
+}
+
+.container-login .imagem-login .sobre-login {
+    position: absolute;
+    width: max-content;
+    text-align: end;
+    max-width: 250px;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-login .imagem-login .sobre-login h1 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0px 0px 5px 0px;
+    color: var(--blue);
+}
+
+.container-login .imagem-login .sobre-login p {
+    font-size: 13.5px;
+    font-weight: 500;
+    margin: 0px 0px 0px 0px;
+    color: var(--blue);
+}
+
+.container-login .imagem-login .sobre-login a {
+    font-size: 13.5px;
+    padding: 5px 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    background: transparent;
+    width: max-content;
+    height: max-content;
+    border: 2px solid var(--blue);
+    cursor: pointer;
+    margin: 9px 0px 0px auto;
+    color: var(--blue);
+    transition: all .1s ease-in-out;
+} .container-login .imagem-login .sobre-login a:hover,
+.container-login .imagem-login .sobre-login a:focus {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: 0px 5px 15px var(--blue);
+}
+
+
+/* CSS MOBILE */
+
+@media (max-width: 840px) {
+    .container-login {
+        flex-direction: column;
+        padding: 40px 0px;
+    }
+
+    .container-login .dados-login {
+        width: 80%;
+        max-width: 450px;
+    }
+
+    .container-login .dados-login .formulario {
+        width: 100%;
+    }
+
+    .container-login .imagem-login {
+        display: none;
+    }
+}

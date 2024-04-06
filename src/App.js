@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
+// PAGES
+import Logar from './paginas/Login';
+import Inicio from './paginas/Inicio';
+import Urna from './paginas/Urna';
+import Consulta from './paginas/Consulta';
+import Erro404 from './paginas/Erro404';
+
+
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Logar />} />
+        <Route path="/logar" element={<Logar />} />
+        <Route
+          path="/painel/*"
+          element={
+            <div>
+              <Routes>
+                <Route path="/inicio" element={<Inicio />} />
+                <Route path="/urna" element={<Urna />} />
+                <Route path="/consulta" element={<Consulta />} />
+                <Route path="/*" element={<Erro404 />} />
+              </Routes>
+            </div>
+          }
+        />
+        <Route path="/*" element={<Erro404 />} />
+      </Routes>
+    </Router>
   );
+
 }
 
 export default App;
