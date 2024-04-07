@@ -93,6 +93,7 @@
     align-items: center;
 }
 
+
 .content-inicio .card .gerenciar h1 {
     font-size: 18px;
     font-weight: 700;
@@ -124,6 +125,28 @@
     color: var(--bluelight);
     margin: 0px 4px;
 }
+
+/* GERENCIAR CHAPA */
+.content-inicio .card .gerenciar .gerenciar-chapa {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--seven);
+    border-radius: 10px;
+    margin: 0px 0px 17.5px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.content-inicio .card .gerenciar .gerenciar-chapa img {
+    max-width: 200px;
+    height: auto;
+    margin: 0px 0px 5px 0px;
+    border-radius: 10px;
+}
+
 
 .content-inicio .card .gerenciar .flex {
     width: 100%;
@@ -157,10 +180,21 @@
     outline: none;
     transition: all .1s ease-in-out;
 } .content-inicio .card .gerenciar button:hover,
-.content-inicio .card .gerenciar button:focus {
+ .content-inicio .card .gerenciar button:focus {
     background: transparent;
     color: var(--blue);
     box-shadow: 4px 4px 2px var(--blue);
+}
+
+.content-inicio .card .gerenciar .btn-vermelho {
+    background: var(--red);
+    border: 2px solid var(--red);
+    box-shadow: 4px 4px 2px red;
+} .content-inicio .card .gerenciar .btn-vermelho:hover,
+ .content-inicio .card .gerenciar .btn-vermelho:focus {
+    background: transparent;
+    color: var(--red);
+    box-shadow: 4px 4px 2px var(--red);
 }
 
 /* ESCOLAS */

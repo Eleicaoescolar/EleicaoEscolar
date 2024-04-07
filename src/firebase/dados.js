@@ -2,7 +2,6 @@ import firebase from 'firebase/compat/app';
 import { firebaseConfig } from './firebaseConfig';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
-import 'firebase/compat/database';
 import 'firebase/compat/storage';
 import { getCookie, limparCookies, setCookie, deleteCookie } from './cookies';
 import Swal from 'sweetalert';
@@ -10,6 +9,7 @@ import Swal from 'sweetalert';
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 
 const dataAtual = new Date();
@@ -20,7 +20,7 @@ const ANO = localStorage.getItem('ano');
 const email = getCookie('email');
 
 const lerChapas = async (escola) => {
-    var chapas = [];
+    const dados = { chapas: [], imagens: [] };
     const ler = new Promise( async (resolve, reject) => {
         try {
             
@@ -34,9 +34,11 @@ const lerChapas = async (escola) => {
             .onSnapshot((data) => {
                 data.docs.map((val) => {
                     const chapa = val.data().nome;
-                    chapas.push(chapa);
+                    const imagem = val.data().imagem;
+                    dados.chapas.push(chapa);
+                    dados.imagens.push(imagem ? imagem : null);
                 });
-                resolve(chapas);
+                resolve(dados);
             });
 
         } catch (error) {
@@ -111,48 +113,154 @@ const salvarInformacoesEleicao = async (escola, descricao) => {
     return salvar;
 };
 
+const salvarChapas = async (escola, chapas, imagensChapas) => {
+    try {
+        if (!escola) {
+            Swal({
+                title: 'Escolha a escola da eleição!',
+                icon: 'error',
+            });
+            return false;
+        }
 
-const salvarChapas = async (escola, chapas) => {
-    const salvar = new Promise( async (resolve, reject) => {
-        try {
-            if (!escola) {
-                Swal({
-                    title: 'Escolha a escola da eleição!',
-                    icon: 'error',
-                });
-                resolve(false);
-                return;
+        const chapasPromise = chapas.map(async (chapa, index) => {
+            
+            const dado = await db.collection(ANO)
+            .doc('usuarios')
+            .collection(email)
+            .doc(email)
+            .collection('eleicoes')
+            .doc(escola)
+            .collection('chapas')
+            .doc(chapa).get();
+            
+            if (imagensChapas[index]) {
+                const storageRef = storage.ref(`${ANO}/${escola}/chapas/${imagensChapas[index].name}`);
+                await storageRef.put(imagensChapas[index]); // Faça o upload real da imagem para o armazenamento
+                const imageUrl = await storageRef.getDownloadURL();
+
+                if (dado.exists) {
+                    await db.collection(ANO)
+                    .doc('usuarios')
+                    .collection(email)
+                    .doc(email)
+                    .collection('eleicoes')
+                    .doc(escola)
+                    .collection('chapas')
+                    .doc(chapa)
+                    .update({
+                        nome: chapa,
+                        imagem: imageUrl,
+                    });
+                } else {
+                    await db.collection(ANO)
+                    .doc('usuarios')
+                    .collection(email)
+                    .doc(email)
+                    .collection('eleicoes')
+                    .doc(escola)
+                    .collection('chapas')
+                    .doc(chapa)
+                    .set({
+                        nome: chapa,
+                        imagem: imageUrl,
+                    });
+                }
+
+            } else {
+                
+                if (dado.exists) {
+                    await db.collection(ANO)
+                    .doc('usuarios')
+                    .collection(email)
+                    .doc(email)
+                    .collection('eleicoes')
+                    .doc(escola)
+                    .collection('chapas')
+                    .doc(chapa)
+                    .update({
+                        nome: chapa,
+                    });
+                } else {
+                    await db.collection(ANO)
+                    .doc('usuarios')
+                    .collection(email)
+                    .doc(email)
+                    .collection('eleicoes')
+                    .doc(escola)
+                    .collection('chapas')
+                    .doc(chapa)
+                    .set({
+                        nome: chapa,
+                    });
+                }
+                
+                
             }
+        });
 
-            const chapasPromise = await chapas.map( async (chapa) => {
-                await db.collection(ANO)
+        await Promise.all(chapasPromise); // Aguarde todas as promessas
+
+        Swal({
+            title: 'Chapas salvas com sucesso!',
+            icon: 'success',
+        }).then(() => {
+            window.location.reload();
+        });
+
+        return true;
+    } catch (error) {
+        console.error('Erro ao salvar informações:', error.message);
+        return false;
+    }
+};
+
+
+
+const excluirChapa = async (escola, chapa) => {
+    try {
+        Swal({
+            title: `Você deseja excluír a chapa ${chapa}?`,
+            icon: 'warning',
+            buttons: {
+                confirm: 'Sim',
+                cancel: 'Não',
+            },
+        }).then( async (resposta) => {
+            if (resposta) {
+                
+                const dado = await db.collection(ANO)
                 .doc('usuarios')
                 .collection(email)
                 .doc(email)
                 .collection('eleicoes')
                 .doc(escola)
                 .collection('chapas')
-                .doc(chapa).set({
-                    nome: chapa,
-                });
-            })
+                .doc(chapa).get();
 
-            const resposta = Promise.all(chapasPromise);
-            if (resposta) {
-                Swal({
-                    title: 'Chapas salvas com sucesso!',
-                    icon: 'success',
-                }).then((resposta) => {
-                    window.location.reload();
-                });
+                if (dado.exists) {
+                    const imagem = dado.data().imagem;
+                    const storageRef = storage.refFromURL(imagem);
+                    await storageRef.delete();
+                    await dado.ref.delete();
+                    await Swal({
+                        title: 'Chapa excluída com sucesso!',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+    
             }
+        });
 
-        } catch (error) {
-            console.error('Erro ao salvar informações:', error.message);
-        }
-    });
-    return salvar;
+        
+        return true;
+    } catch (error) {
+        console.error('Erro ao salvar informações:', error.message);
+        return false;
+    }
 };
 
 
-export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao }
+export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa }

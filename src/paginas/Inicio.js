@@ -8,7 +8,7 @@ import { IonIcon } from '@ionic/react';
 import * as IoniconsIcons from 'ionicons/icons';
 import { getCookie, limparCookies, setCookie, deleteCookie } from '../firebase/cookies';
 import { auth } from '../firebase/login';
-import { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao } from '../firebase/dados';
+import { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa } from '../firebase/dados';
 
 const Erro = () => {
 
@@ -50,20 +50,37 @@ const Erro = () => {
   // CARD DE CHAPAS 
   const [cardChapas, setCardChapas] = useState(false);
   const [statusCardChapas, setStatusCardChapas] = useState(false);
-  const [chapas, setChapas] = useState([]);
   const [quantidadeChapas, setQuantidadeChapas] = useState(0);
-
+  const [chapas, setChapas] = useState([]);
+  const [imagens, setImagens] = useState(Array(quantidadeChapas).fill(null));
+  const [urlImagens, setUrlImagens] = useState([]);
+  
   const handleInputChange = (index, event) => {
     const novasChapas = [...chapas];
     novasChapas[index] = event.target.value;
     setChapas(novasChapas);
   };
 
+  const handleInputFileChange = (index, event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    const newImagens = [...imagens];
+    newImagens[index] = file;
+    console.log(newImagens)
+    setImagens(newImagens);
+  };
+  
+
   const handleQuantidadeChapasChange = (event) => {
     const quantidade = parseInt(event.target.value);
     setQuantidadeChapas(quantidade);
-    setChapas(Array(quantidade).fill(''));
   };
+
+  // Atualiza os estados chapas e imagens sempre que quantidadeChapas for alterado
+  /* useEffect(() => {
+    setChapas(Array(quantidadeChapas).fill(''));
+    setImagens(Array(quantidadeChapas).fill(null));
+  }, [quantidadeChapas]);*/
 
   
   // DADOS COLETADOS
@@ -83,11 +100,14 @@ const Erro = () => {
 
   const gerenciarEscola = async (escola, descricao) => {
     try {
-      const chapas = await lerChapas(escola);
+      const { chapas, imagens } = await lerChapas(escola);
       if (chapas.length > 0) {
         setChapas(chapas);
         setStatusCardChapas(true);
         setQuantidadeChapas(chapas.length);
+      }
+      if (imagens.length > 0) {
+        setUrlImagens(imagens);
       }
       if (escola && descricao) {
         setEscolaDaEleicao(escola);
@@ -213,7 +233,7 @@ const Erro = () => {
                   </div>
                   {escolaDaEleicao ? (
                     <div className='input'>
-                      <select value={quantidadeChapas} onChange={(e) => setQuantidadeChapas(e.target.value)}>
+                      <select value={quantidadeChapas} onChange={handleQuantidadeChapasChange}>
                         <option>Selecione..</option>
                         <option value={2}>2</option>
                         <option value={3}>3</option>
@@ -229,9 +249,15 @@ const Erro = () => {
                   {quantidadeChapas > 0 ? (
                     <>
                         {Array.from({ length: quantidadeChapas }, (_, i) => (
-                          <div className='input' key={i + 1}>
+                          <div className='wd-100 flex'>
+                            <div className='input wd-48 mr-auto ml-0' key={i + 1}>
                               <input onChange={(event) => handleInputChange(i, event)} value={chapas[i] || ''} type='text' placeholder='' />
                               <label>Nome da Chapa - {i + 1} </label>
+                            </div>
+                            <div className='input wd-48 mr-0 ml-auto' key={i + 1}>
+                              <input onChange={(event) => handleInputFileChange(i, event)} type='file' placeholder='' />
+                              <label>Foto da Chapa - {i + 1} </label>
+                            </div>
                           </div>
                       ))}
                     </>
@@ -240,7 +266,7 @@ const Erro = () => {
                   )}
                   
                 </div>
-                <button className='ml-0 mt-13 mb-15' onClick={() => salvarChapas(escolaDaEleicao, chapas)}>Salvar</button>
+                <button className='ml-0 mt-13 mb-15' onClick={() => salvarChapas(escolaDaEleicao, chapas, imagens)}>Salvar</button>
               </div>
             </>
           )}
@@ -261,7 +287,13 @@ const Erro = () => {
                 <div className='column mb-10'>
                   <h1>A Eleição da Escola <strong className='azul'> '{nomeEscola}' </strong> possui {chapas.length} Chapas:</h1>
                   {chapas.map((chapa, index) => (
-                    <p> Chapa {index + 1} - <strong className='azul'>{chapa}</strong> </p>
+                    <div className='gerenciar-chapa'>
+                      <div className='column'>
+                        <p> Chapa {index + 1} - <strong className='azul'>{chapa}</strong> </p>
+                        <img src={urlImagens[index]} />
+                      </div>
+                      <button className='btn-vermelho ml-auto mr-10' onClick={() => excluirChapa(nomeEscola, chapa)}>Excluir</button>
+                    </div>
                   ))}
                   <p></p>
                 </div>
