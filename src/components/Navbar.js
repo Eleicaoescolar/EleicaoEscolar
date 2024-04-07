@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../css/Navbar.css';
 
 // ICONES
@@ -11,8 +11,8 @@ import { auth } from '../firebase/login';
 
 const Erro = () => {
 
-    const local = window.location.pathname;
-    const pagina = local.slice(1);
+    const location = useLocation();
+    const pagina = location.pathname.slice(1);
 
     const email = getCookie('email');
     
@@ -30,10 +30,10 @@ const Erro = () => {
     return (
         <header className="navbar">
             
-            <>
+            <div style={{display: 'flex', alignItems: 'center'}}>
                 <img className='logo' src={require('../img/urna.png')} />
                 <h1 className='logo'>Eleição Escolar</h1>
-            </>
+            </div>
             
             <nav className='links'>
                 <Link className={pagina === 'painel' || pagina === 'painel/inicio' ? 'selecionado' : ''} to="/painel/inicio">

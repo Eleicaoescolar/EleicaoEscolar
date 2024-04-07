@@ -27,6 +27,30 @@
     align-items: center;
 }
 
+.content-inicio .card.vermelho {
+    background: var(--red);
+    border: 2px solid red;
+    color: var(--white);
+}
+
+
+.content-inicio .card.vermelho .sobre h1 {
+    color: var(--white);
+} .content-inicio .card.vermelho .sobre ion-icon {
+    color: var(--white);
+} .content-inicio .card.vermelho .gerenciar h1 {
+    color: var(--white);
+}  .content-inicio .card.vermelho .gerenciar h1 strong {
+    color: var(--eight);
+    font-size: 20px;
+}
+
+
+.content-inicio .card.vermelho .linha {
+    border-top: 2px solid red;
+}
+
+
 .content-inicio .card .sobre {
     width: 95%;
     max-width: 95%;
@@ -137,13 +161,29 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 15px;
+    padding: 16px 15px 20px 15px;
 }
 
-.content-inicio .card .gerenciar .gerenciar-chapa img {
+
+.content-inicio .card .gerenciar .gerenciar-chapa .column {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0px 0px 0px 5px;
+}
+
+
+.content-inicio .card .gerenciar .gerenciar-chapa .column p {
+    width: 100%;
+    margin: 0px;
+}
+
+.content-inicio .card .gerenciar .gerenciar-chapa .column img {
     max-width: 200px;
     height: auto;
-    margin: 0px 0px 5px 0px;
+    margin: 15px 0px 0px 0px;
     border-radius: 10px;
 }
 
@@ -197,6 +237,19 @@
     box-shadow: 4px 4px 2px var(--red);
 }
 
+.content-inicio .card .gerenciar .btn-branco {
+    background: var(--white);
+    border: 2px solid red;
+    color: var(--red);
+    box-shadow: 4px 4px 2px red;
+} .content-inicio .card .gerenciar .btn-branco:hover,
+ .content-inicio .card .gerenciar .btn-branco:focus {
+    background: var(--red);
+    color: var(--white);
+    border: 2px solid var(--white);
+    box-shadow: 4px 4px 2px var(--white);
+}
+
 /* ESCOLAS */
 .content-inicio .card .gerenciar .column.escola {
     width: auto;
@@ -205,7 +258,7 @@
 }
 
 .content-inicio .card .gerenciar .column.escola h1 {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 700;
     margin: 2.5px 0px;
     color: var(--three);

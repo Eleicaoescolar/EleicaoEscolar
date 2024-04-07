@@ -62,9 +62,11 @@ const lerEscolas = async () => {
                 data.docs.map((val) => {
                     const escola = val.data().escola;
                     const descricao = val.data().descricao;
+                    const status = val.data().status;
                     escolas.push({
                         escola,
                         descricao,
+                        status,
                     });
                 });
                 resolve(escolas);
@@ -97,6 +99,7 @@ const salvarInformacoesEleicao = async (escola, descricao) => {
             .doc(escola).set({
                 escola: escola,
                 descricao: descricao,
+                status: '222',
             }).then((res) => {
                 Swal({
                     title: 'Informações salvas com sucesso!',
@@ -216,8 +219,54 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
 };
 
 
+const excluirEscola = async (escola) => {
+
+    try {
+        Swal({
+            title: `Você deseja excluír a eleição da escola ${escola}?`,
+            icon: 'warning',
+            buttons: {
+                confirm: 'Sim',
+                cancel: 'Não',
+            },
+        }).then( async (resposta) => {
+            if (resposta) {
+                
+                const dado = await db.collection(ANO)
+                .doc('usuarios')
+                .collection(email)
+                .doc(email)
+                .collection('eleicoes')
+                .doc(escola).get();
+
+                if (dado.exists) {
+                    await dado.ref.delete();
+                    await Swal({
+                        title: 'Eleição excluída com sucesso!',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal({
+                        title: `Eleição da escola ${escola} não existe!`,
+                        icon: 'error',
+                    });
+                }
+    
+            }
+        });
+
+        
+        return true;
+    } catch (error) {
+        console.error('Erro ao salvar informações:', error.message);
+        return false;
+    }
+};
 
 const excluirChapa = async (escola, chapa) => {
+
     try {
         Swal({
             title: `Você deseja excluír a chapa ${chapa}?`,
@@ -240,14 +289,21 @@ const excluirChapa = async (escola, chapa) => {
 
                 if (dado.exists) {
                     const imagem = dado.data().imagem;
-                    const storageRef = storage.refFromURL(imagem);
-                    await storageRef.delete();
+                    if (imagem) {
+                        const storageRef = storage.refFromURL(imagem);
+                        await storageRef.delete();
+                    }
                     await dado.ref.delete();
                     await Swal({
                         title: 'Chapa excluída com sucesso!',
                         icon: 'success',
                     }).then(() => {
                         window.location.reload();
+                    });
+                } else {
+                    Swal({
+                        title: `Chapa ${chapa} não existe!`,
+                        icon: 'error',
                     });
                 }
     
@@ -263,4 +319,4 @@ const excluirChapa = async (escola, chapa) => {
 };
 
 
-export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa }
+export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola }

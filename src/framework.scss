@@ -4,8 +4,21 @@
     }
 }
 
-@for $i from 100 through 1000 {
-    .mx-width-#{$i} {
+@for $i from 0 through 500 {
+    .wd-#{$i}px {
+        width: #{$i}px !important;
+    }
+}
+
+// MAX WIDTH
+@for $i from 0 through 100 {
+    .mx-wd-#{$i} {
+        max-width: percentage($i / 100) !important;
+    }
+}
+
+@for $i from 0 through 1000 {
+    .mx-wd-#{$i}px {
         max-width: #{$i}px !important;
     }
 }

@@ -8,7 +8,7 @@ import { IonIcon } from '@ionic/react';
 import * as IoniconsIcons from 'ionicons/icons';
 import { getCookie, limparCookies, setCookie, deleteCookie } from '../firebase/cookies';
 import { auth } from '../firebase/login';
-import { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa } from '../firebase/dados';
+import { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola } from '../firebase/dados';
 
 const Erro = () => {
 
@@ -63,10 +63,8 @@ const Erro = () => {
 
   const handleInputFileChange = (index, event) => {
     const file = event.target.files[0];
-    console.log(file)
     const newImagens = [...imagens];
     newImagens[index] = file;
-    console.log(newImagens)
     setImagens(newImagens);
   };
   
@@ -120,6 +118,11 @@ const Erro = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const navigate = useNavigate();
+  const navigation = (url) => {
+    navigate(url);
   }
 
   useEffect(() => {
@@ -254,9 +257,10 @@ const Erro = () => {
                               <input onChange={(event) => handleInputChange(i, event)} value={chapas[i] || ''} type='text' placeholder='' />
                               <label>Nome da Chapa - {i + 1} </label>
                             </div>
-                            <div className='input wd-48 mr-0 ml-auto' key={i + 1}>
+                            <div className='input-file wd-48 mr-0 ml-auto' key={i + 1}>
                               <input onChange={(event) => handleInputFileChange(i, event)} type='file' placeholder='' />
-                              <label>Foto da Chapa - {i + 1} </label>
+                              <label>Arquívo</label>
+                              <p>{imagens[i] ? imagens[i].name : `Foto da Chapa - ${i + 1}`}</p>
                             </div>
                           </div>
                       ))}
@@ -284,19 +288,48 @@ const Erro = () => {
             <>
               <div className='linha'></div>
               <div className='gerenciar'>
-                <div className='column mb-10'>
-                  <h1>A Eleição da Escola <strong className='azul'> '{nomeEscola}' </strong> possui {chapas.length} Chapas:</h1>
+                <div className='wd-100 column'>
+                  <h1 className='mb-20'>A Eleição da Escola <strong className='azul'> '{nomeEscola}' </strong> possui {chapas.length} {chapas.length === 1 ? 'Chapa' : 'Chapas'}:</h1>
                   {chapas.map((chapa, index) => (
                     <div className='gerenciar-chapa'>
                       <div className='column'>
                         <p> Chapa {index + 1} - <strong className='azul'>{chapa}</strong> </p>
-                        <img src={urlImagens[index]} />
+                        {urlImagens[index] ? ( <img src={urlImagens[index]} /> ) : ( <></> )}
                       </div>
-                      <button className='btn-vermelho ml-auto mr-10' onClick={() => excluirChapa(nomeEscola, chapa)}>Excluir</button>
+                      <button className='btn-vermelho ml-auto mr-10 mt-0' onClick={() => excluirChapa(nomeEscola, chapa)}>Excluir</button>
                     </div>
                   ))}
                   <p></p>
                 </div>
+                <button className='ml-0 mt-15 mb-20' onClick={() => navigation('/painel/urna')}>
+                  Ir para Urna Eletrônica
+                </button>
+              </div>
+            </>
+          
+          </article>
+        ) : (
+          <></>
+        )}
+
+        {/* AREA DE PERIGO */}
+        {nomeEscola ? (
+          <article className='card vermelho'>
+            {/* SOBRE */}
+            <div className='sobre cursor-default pointer-events-all'>
+              <h1> Área de Perigo </h1>
+              <IonIcon icon={IoniconsIcons.warning} />
+            </div>
+            {/* GERENCIAR */}
+            <>
+              <div className='linha'></div>
+              <div className='gerenciar'>
+                <div className='wd-100 column'>
+                  <h1 className='mb-20'> A eleição a ser excluída é a <strong className='azul'> {nomeEscola} </strong>. Antes de clicar no botão abaixo para confirmar a exclusão, por favor, revise se é realmente essa eleição que deseja remover.</h1>
+                </div>
+                <button className='btn-branco ml-0 mt-5 mb-20' onClick={() => excluirEscola(nomeEscola)}>
+                  Excluir Eleição
+                </button>
               </div>
             </>
           

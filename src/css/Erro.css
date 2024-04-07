@@ -1,25 +1,27 @@
 .container-erro {
     width: 100%;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: var(--eight);
 }
 
 .container-erro img {
     width: 80%;
     max-width: 400px;
     height: auto;
-    margin: -10px 0px 0px 0px;
+    margin: -30px 0px 0px 0px;
 }
 
 .container-erro h1 {
     color: var(--blue);
-    font-size: min(calc(10px + 2.8vw), 30px);
+    font-size: min(calc(10px + 2.8vw), 28px);
     font-weight: 800;
     text-align: center;
+    text-shadow: 1px 1px 2px var(--bluelight);
     margin: -30px 0px 17.5px 0px;
 }
 
@@ -30,7 +32,8 @@
     background: var(--blue);
     border: 2px solid var(--blue);
     padding: 10px 16px;
-    border-radius: 8px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 2px var(--bluelight);
     font-size: 15px;
     font-weight: 700;
     transition: all .2s ease-in-out;
@@ -38,5 +41,5 @@
 .container-erro a:focus {
     background: transparent;
     color: var(--blue);
-    box-shadow: 0px 5px 15px var(--blue);
+    box-shadow: 4px 4px 2px var(--blue);
 }
