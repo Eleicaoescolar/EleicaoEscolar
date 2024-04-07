@@ -246,6 +246,34 @@ const Erro = () => {
           )}
         </article>
 
+        {/* IR PARA URNA ELETRÕNICA */}
+        {statusCardChapas && statusCardInformacoes ? (
+          <article className='card'>
+            {/* SOBRE */}
+            <div className='sobre cursor-default pointer-events-all'>
+              <h1> Ir para Urna Eletrônica </h1>
+              <IonIcon className='verde' icon={IoniconsIcons.checkmarkCircle} />
+            </div>
+            {/* GERENCIAR */}
+            <>
+              <div className='linha'></div>
+              <div className='gerenciar'>
+                <div className='column mb-10'>
+                  <h1>A Eleição da Escola <strong className='azul'> '{nomeEscola}' </strong> possui {chapas.length} Chapas:</h1>
+                  {chapas.map((chapa, index) => (
+                    <p> Chapa {index + 1} - <strong className='azul'>{chapa}</strong> </p>
+                  ))}
+                  <p></p>
+                </div>
+              </div>
+            </>
+          
+          </article>
+        ) : (
+          <></>
+        )}
+        
+
       </section>
 
     </main>

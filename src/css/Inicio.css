@@ -41,6 +41,15 @@
     user-select: none;
 }
 
+.content-inicio .card .sobre ion-icon {
+    font-size: 28px;
+} .content-inicio .card .sobre ion-icon.verde {
+    color: var(--green);
+} .content-inicio .card .sobre ion-icon.vermelho {
+    color: var(--red);
+} .content-inicio .card .sobre ion-icon.amarelo {
+    color: var(--yellow);
+}
 
 .content-inicio .card .sobre h1 {
     font-size: 17px;
@@ -85,14 +94,35 @@
 }
 
 .content-inicio .card .gerenciar h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--three);
+    pointer-events: none;
+    display: block;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px auto;
+    cursor: text;
+    pointer-events: all;
+} .content-inicio .card .gerenciar h1 .azul {
+    color: var(--bluelight);
+    margin: 0px 4px;
+}
+
+.content-inicio .card .gerenciar p {
     font-size: 17px;
     font-weight: 600;
     color: var(--three);
     pointer-events: none;
-    display: flex;
+    display: block;
     flex-direction: row;
     align-items: center;
     margin: 10px auto;
+    cursor: text;
+    pointer-events: all;
+} .content-inicio .card .gerenciar p .azul {
+    color: var(--bluelight);
+    margin: 0px 4px;
 }
 
 .content-inicio .card .gerenciar .flex {

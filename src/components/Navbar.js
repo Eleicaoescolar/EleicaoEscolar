@@ -30,9 +30,11 @@ const Erro = () => {
     return (
         <header className="navbar">
             
-            <img className='logo' src={require('../img/urna.png')} />
-            <h1 className='logo'>Eleição Escolar</h1>
-
+            <>
+                <img className='logo' src={require('../img/urna.png')} />
+                <h1 className='logo'>Eleição Escolar</h1>
+            </>
+            
             <nav className='links'>
                 <Link className={pagina === 'painel' || pagina === 'painel/inicio' ? 'selecionado' : ''} to="/painel/inicio">
                     Início

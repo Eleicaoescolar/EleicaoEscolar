@@ -299,13 +299,21 @@
   opacity: 1 !important;
 }
 
+*.cursor-default {
+  cursor: default !important;
+} *.pointer-events-all {
+  pointer-events: all !important;
+}
+
 /* FLEXBOX */
 *.flex {
   width: 100% !important;
   display: flex !important;
 } *.row {
+  width: 100% !important;
   flex-direction: row !important;
 } *.column {
+  width: 100% !important;
   flex-direction: column !important;
 }
 
