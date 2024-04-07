@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import logo from '../img/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/Erro.css';
 

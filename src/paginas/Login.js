@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/Login.css';
 import '../global.css';
+import { getCookie, limparCookies, setCookie, deleteCookie } from '../firebase/cookies';
+import { auth } from '../firebase/login';
 
 // ICONES
 import Swal from 'sweetalert';
@@ -58,7 +60,31 @@ const Login = () => {
     } else {
       setOpacityFormulario(false);
     }
-  }, [])
+  }, []);
+
+  const logado = getCookie('logado');
+  const pagina = window.location.pathname.slice(1);
+  if (logado && logado !== '') {
+    auth.onAuthStateChanged( async function(user) {
+      if (!user) {
+        localStorage.clear();
+        limparCookies();
+        window.location.href = "/login";
+      } else {
+        const email = await user.email;
+        const emailLocal = await getCookie('email');
+        
+        if (emailLocal !== email) {
+          await localStorage.clear();
+          await limparCookies();
+          await auth.signOut();
+          window.location.href = "/logar";
+        } else {
+          window.location.href = "/painel";
+        }
+      }
+    });
+  }
 
   return (
     <main className="container-login">
@@ -68,7 +94,14 @@ const Login = () => {
         {formularioLogar && (
           <div className={`formulario opacity-0 ${opacityFormulario ? 'opacity-1' : ''}`}>
 
-            <h1>Bem-Vindo de Volta</h1>
+            <div className='logo'>
+              <h1 className='logar'>Logar
+                <div className='linha'>
+                  <img src={require('../img/urna.png')} />
+                  <p>Eleição Escolar</p>
+                </div>
+              </h1>
+            </div>
             
             <div className='input'>
               <input onChange={(e) => setEmail(e.target.value)} type='text' placeholder='' />
@@ -100,7 +133,15 @@ const Login = () => {
         {formularioCadastrar && (
           <div className={`formulario opacity-0 ${opacityFormulario ? 'opacity-1' : ''}`}>
 
-            <h1>Fazer Cadastro</h1>
+            <div className='logo'>
+              <h1 className='cadastrar'>Cadastrar
+                <div className='linha'>
+                  <img src={require('../img/urna.png')} />
+                  <p>Eleição Escolar</p>
+                </div>
+              </h1>
+            </div>
+
             
             <div className='input'>
               <input onChange={(e) => setEmail(e.target.value)} type='text' placeholder='' />

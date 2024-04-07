@@ -13,7 +13,7 @@
 
 /* PARTE DO FORMULARIO (NA ESQUERDA) */
 .container-login .dados-login {
-    width: 50%;
+    width: 45%;
     height: auto;
     margin: 0px auto;
     display: flex;
@@ -21,6 +21,7 @@
     justify-content: center;
     align-items: center;
     opacity: 1;
+    z-index: 100;
 }
 
 .container-login .dados-login .formulario {
@@ -40,7 +41,7 @@
 
 /* PARTE DAS IMAGENS (NA DIREITA) */
 .container-login .imagem-login {
-    width: 50%;
+    width: 55%;
     height: auto;
     background: var(--eight);
     display: flex;
@@ -104,9 +105,127 @@
 }
 
 
-/* CSS MOBILE */
+/* LOGO */
+.container-login .dados-login .logo {
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0px auto 0px 0px;
+}
 
-@media (max-width: 840px) {
+.container-login .dados-login .logo h1 {
+    width: auto;
+    display: flex;
+    margin: 0px 0px 3.5px 0px;
+}
+
+
+.container-login .dados-login .logo .linha {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    word-break: break-all;
+    margin: 0px 0px 0px 8px;
+}
+
+.container-login .dados-login .logo .linha img {
+    margin: -8px 0px 0px 0px;
+}
+
+.container-login .dados-login .logo .linha p {
+    font-size: 22px;
+    font-weight: 800;
+    color: #9eacb1;
+    margin: 0px 0px 0px 8px;
+}
+
+/* A PORRA DA LOGO 0_____0 */
+
+@media (max-width: 400px) {
+    
+    .container-login .dados-login .logo h1.logar {
+        display: block;
+    }
+
+    .container-login .dados-login .logo h1.logar .linha img {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .container-login .dados-login .logo h1.logar .linha {
+        margin: 0px;
+    }
+}
+
+@media (min-width: 1180px) {
+    
+    .container-login .dados-login .logo h1.cadastrar {
+        display: flex;
+    }
+    
+    .container-login .dados-login .logo h1.cadastrar .linha img {
+        margin: -8px 0px 0px 0px;
+    }
+
+    .container-login .dados-login .logo h1.cadastrar .linha {
+        margin: 0px 0px 0px 8px;
+    }
+
+}
+
+@media screen and (min-width: 901px) and (max-width: 1179px) {
+    
+    .container-login .dados-login .logo h1.cadastrar {
+        display: block;
+    }
+    
+    .container-login .dados-login .logo h1.cadastrar .linha img {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .container-login .dados-login .logo h1.cadastrar .linha {
+        margin: 0px;
+    }
+
+}
+
+@media screen and (min-width: 901px) and (max-width: 1000px) {
+    .container-login .dados-login .logo h1.logar {
+        display: block;
+    }
+    
+    .container-login .dados-login .logo h1.logar .linha img {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .container-login .dados-login .logo h1.logar .linha {
+        margin: 0px;
+    }
+}
+
+@media (max-width: 490px) {
+    
+    .container-login .dados-login .logo h1.cadastrar {
+        display: block;
+    }
+    
+    .container-login .dados-login .logo h1.cadastrar .linha img {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .container-login .dados-login .logo h1.cadastrar .linha {
+        margin: 0px;
+    }
+
+}
+
+
+
+/* CSS MOBILE */
+@media (max-width: 900px) {
     .container-login {
         flex-direction: column;
         padding: 40px 0px;

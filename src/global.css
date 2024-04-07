@@ -23,8 +23,15 @@
   --bluelight: #0369a1;
   --green: #10b710;
   --red: #F55557;
+  --orange: #ee7322;
+  --yellow: #eead2d;
   --poppins: "Poppins", sans-serif;
   --notoSans: "Noto Sans", sans-serif;
+}
+
+*::selection {
+  background-color: var(--bluelight);
+  color: var(--white);
 }
 
 * {
@@ -112,6 +119,10 @@
   margin: 0px auto;
 }
 
+.formulario img {
+  margin: 0px auto 5px 0px;
+}
+
 .formulario .input {
   position: relative;
   width: 100%;
@@ -122,13 +133,33 @@
 .formulario .input input {
   width: 100%;
   height: 50px;
-  border: 2px solid var(--dark);
+  border: 1px solid var(--dark);
+  box-shadow: 4px 4px 2px rgba(55, 65, 81, 1);
+  margin: 10px auto;
+  background: transparent;
+  outline: none;
+  padding: 0px 0px 0px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--three);
+  border-radius: 5px;
+}
+
+
+.formulario .input select {
+  width: 100%;
+  height: 50px;
+  border: 1px solid var(--dark);
+  box-shadow: 4px 4px 2px rgba(55, 65, 81, 1);
+  background: transparent;
   margin: 10px auto;
   outline: none;
   padding: 0px 0px 0px 15px;
   font-size: 16px;
   font-weight: 600;
   color: var(--three);
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .formulario .input label {
@@ -155,6 +186,14 @@
   font-weight: 600;
 }
 
+.formulario .input select:not(:placeholder-shown) ~ label,
+.formulario .input select:focus ~ label {
+  top: 10px;
+  left: 15px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
 
 .formulario .input-checkbox {
   position: relative;
@@ -173,7 +212,6 @@
   outline: none;
   color: var(--three);
   cursor: pointer;
-  box-shadow: 0px 0px 15px rgba(55, 65, 81, 0.5);
 }
 
 .formulario .input-checkbox p {
@@ -197,16 +235,18 @@
   color: var(--white);
   margin: 10px auto;
   outline: none;
+  user-select: none;
   padding: 0px 0px 0px 15px;
   font-size: 16px;
   font-weight: 600;
-  box-shadow: 0px 5px 15px var(--blue);
+  box-shadow: 4px 4px 2px var(--bluelight);
   transition: all .3s ease-in-out;
+  border-radius: 5px;
 } .formulario .button button:hover,
 .formulario .button button:focus {
   background: transparent;
   color: var(--blue);
-  box-shadow: 0px 5px 15px var(--blue);
+  box-shadow: 4px 4px 2px var(--blue);
 } .formulario .button button:hover ~ ion-icon,
 .formulario .button button:focus ~ ion-icon {
   color: var(--blue);
@@ -220,6 +260,7 @@
   font-size: 25px;
   color: var(--white);
   transition: all .3s ease-in-out;
+  pointer-events: none;
 };
 
 .formulario .p {
@@ -248,12 +289,68 @@
   text-decoration: underline;
   transition: all .1s ease-in-out;
 }
+
+
 /* FRAMEWORKS */
-.opacity-0 {
+*.opacity-0 {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+} *.opacity-1 {
+  opacity: 1 !important;
 }
 
-.opacity-1 {
-  opacity: 1 !important;
+/* FLEXBOX */
+*.flex {
+  width: 100% !important;
+  display: flex !important;
+} *.row {
+  flex-direction: row !important;
+} *.column {
+  flex-direction: column !important;
+}
+
+*.justify-content-center {
+  justify-content: center !important;
+} *.justify-content-between {
+  justify-content: space-between !important;
+} *.justify-content-around {
+  justify-content: space-around !important;
+} 
+
+*.align-items-center {
+  align-items: center !important;
+} *.align-items-start {
+  align-items: start !important;
+} *.align-items-end {
+  align-items: end !important;
+}
+
+*.ml-auto {
+  margin-left: auto !important;
+} *.mr-auto {
+  margin-right: auto !important;
+}  *.mt-auto {
+  margin-top: auto !important;
+}  *.mb-auto {
+  margin-bottom: auto !important;
+}
+
+
+*.titulo {
+  font-size: 22px;
+  color: var(--three);
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center
+}
+
+
+*.paragrafo {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--three);
+  display: flex;
+  flex-direction: row;
+  align-items: center
 }
