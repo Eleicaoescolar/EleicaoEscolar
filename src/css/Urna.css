@@ -190,6 +190,17 @@
 }
 
 
+.content-urna .card .gerenciar .btn-laranja {
+    background: var(--orange);
+    border: 2px solid var(--orange);
+    box-shadow: 4px 4px 2px orange;
+} .content-urna .card .gerenciar .btn-laranja:hover,
+ .content-urna .card .gerenciar .btn-laranja:focus {
+    background: transparent;
+    color: var(--orange);
+    box-shadow: 4px 4px 2px var(--orange);
+}
+
 /* ESCOLAS */
 .content-urna .card .gerenciar .column.escola {
     width: max-content !important;
@@ -217,17 +228,18 @@
 .urna {
     width: 100%;
     height: auto;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    padding: 20px 0px;
 }
 
 /* TELA */
 .urna .tela {
     width: 50%;
-    height: 100%;
+    height: auto;
     min-height: calc(90vh - 70px);
     display: flex;
     flex-direction: column;
@@ -261,6 +273,13 @@
     margin: 20px 0px 0px 0px;
 }
 
+.urna .tela .flex .fim {
+    font-size: 50px;
+    font-weight: 700;
+    color: var(--three);
+    letter-spacing: 0.2px;
+    margin: 50px auto;
+}
 /* VOTO */
 .urna .tela .flex .column .flex .voto {
     padding: 15px;
@@ -282,13 +301,22 @@
     height: 175px;
     border: 2px solid var(--four);
     margin: 5px 0px 40px 0px;
+    position: relative;
 }
-
 
 .urna .tela .flex .column .imagem img {
     width: 100%;
     height: 100%;
     position: relative;
+}
+
+.urna .tela .flex .column .imagem p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    font-weight: 500;
 }
 
 .urna .tela .flex .column p {
@@ -316,11 +344,11 @@
 }
 
 
-
 /* BOTÕES */
 .urna .botoes {
     width: 35%;
-    height: 100%;
+    max-width: 500px;
+    height: auto;
     min-height: calc(90vh - 70px);
     display: flex;
     flex-direction: column;
@@ -331,6 +359,8 @@
 }
 
 .urna .botoes .informacoes {
+    width: auto;
+    height: auto;
     background: var(--nine);
     display: flex;
     flex-direction: column;
@@ -338,9 +368,9 @@
     padding: 0px 0px 15px 0px;
 }
 
-.urna .botoes .column h1 {
+.urna .botoes .informacoes h1 {
     width: 92.5%;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     margin: 0px;
     padding: 0px;
@@ -349,9 +379,9 @@
 }
 
 
-.urna .botoes .column p {
+.urna .botoes .informacoes p {
     width: 92.5%;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     margin: 0px;
     padding: 0px;
@@ -359,3 +389,111 @@
     margin: 0px 0px 0px 0px;
 }
 
+/* BOTOES BTNS */
+.urna .botoes .btns {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto 0px;
+    padding: 0px 0px 10px 0px;
+}
+
+.urna .botoes .btns .column {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 10px 0px;
+}
+
+.urna .botoes .btns .flex {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+.urna .botoes .btns .flex .btn-numero {
+    background: var(--white);
+    color: var(--three);
+    width: 60px;
+    height: 60px;
+    margin: 0px 15px;
+    box-shadow: 4px 4px 2px var(--four);
+    font-size: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .urna .botoes .btns .flex .btn-numero:active,
+.urna .botoes .btns .flex .btn-numero:focus {
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+.urna .botoes .btns .flex .btn-votar {
+    background: var(--white);
+    color: var(--three);
+    width: max-content;
+    height: max-content;
+    margin: 0px 15px;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    font-size: 17px;
+    font-weight: 600;
+    box-shadow: 4px 4px 2px var(--four);
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .urna .botoes .btns .flex .btn-votar:active,
+  .urna .botoes .btns .flex .btn-votar:focus {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+.urna .botoes .btns .flex .btn-votar.branco {
+    box-shadow: 4px 4px 2px var(--six);
+} .urna .botoes .btns .flex .btn-votar.branco:active,
+  .urna .botoes .btns .flex .btn-votar.branco:focus {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+.urna .botoes .btns .flex .btn-votar.corrige {
+    background: var(--orange);
+    box-shadow: 4px 4px 2px #ff9249;
+} .urna .botoes .btns .flex .btn-votar.corrige:active,
+  .urna .botoes .btns .flex .btn-votar.corrige:focus {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+.urna .botoes .btns .flex .btn-votar.confirma {
+    background: var(--green);
+    box-shadow: 4px 4px 2px #1cfd1c;
+} .urna .botoes .btns .flex .btn-votar.confirma:active,
+  .urna .botoes .btns .flex .btn-votar.confirma:focus {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+}
+
+@media (max-width: 1222px) {
+    .urna {
+        flex-direction: column;
+    }
+
+    .urna .tela {
+        width: 90%;
+        max-width: 500px;
+        margin: 0px auto;
+    }
+
+    .urna .botoes {
+        width: 90%;
+        max-width: 500px;
+        margin: 35px auto;
+    }
+}

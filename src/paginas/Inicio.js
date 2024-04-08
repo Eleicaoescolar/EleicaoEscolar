@@ -52,6 +52,7 @@ const Erro = () => {
   const [statusCardChapas, setStatusCardChapas] = useState(false);
   const [quantidadeChapas, setQuantidadeChapas] = useState(0);
   const [chapas, setChapas] = useState([]);
+  const [numeros, setNumeros] = useState([]);
   const [imagens, setImagens] = useState(Array(quantidadeChapas).fill(null));
   const [urlImagens, setUrlImagens] = useState([]);
   
@@ -60,6 +61,22 @@ const Erro = () => {
     novasChapas[index] = event.target.value;
     setChapas(novasChapas);
   };
+
+  const handleInputNumeroChange = (index, event) => {
+    const novoValor = event.target.value;
+    
+    // Verifica se o novo valor é um número e tem no máximo 2 dígitos
+    if (!/^\d{0,2}$/.test(novoValor)) {
+      // Se não for um número ou exceder 2 dígitos, limpa o valor do input e retorna
+      event.target.value = numeros[index] || ''; // Mantém o valor atual se já houver dois dígitos
+      return;
+    }
+  
+    const novosNumeros = [...numeros];
+    novosNumeros[index] = novoValor;
+    setNumeros(novosNumeros);
+  };
+  
 
   const handleInputFileChange = (index, event) => {
     const file = event.target.files[0];
@@ -98,7 +115,7 @@ const Erro = () => {
 
   const gerenciarEscola = async (escola, descricao) => {
     try {
-      const { chapas, imagens } = await lerChapas(escola);
+      const { chapas, imagens, numeros } = await lerChapas(escola);
       if (chapas.length > 0) {
         setChapas(chapas);
         setStatusCardChapas(true);
@@ -106,6 +123,9 @@ const Erro = () => {
       }
       if (imagens.length > 0) {
         setUrlImagens(imagens);
+      }
+      if (numeros.length > 0) {
+        setNumeros(numeros);
       }
       if (escola && descricao) {
         setEscolaDaEleicao(escola);
@@ -252,12 +272,16 @@ const Erro = () => {
                   {quantidadeChapas > 0 ? (
                     <>
                         {Array.from({ length: quantidadeChapas }, (_, i) => (
-                          <div className='wd-100 flex'>
-                            <div className='input wd-48 mr-auto ml-0' key={i + 1}>
+                          <div className='wd-100 flex inputs'>
+                            <div className='input' key={i + 1}>
                               <input onChange={(event) => handleInputChange(i, event)} value={chapas[i] || ''} type='text' placeholder='' />
                               <label>Nome da Chapa - {i + 1} </label>
                             </div>
-                            <div className='input-file wd-48 mr-0 ml-auto' key={i + 1}>
+                            <div className='input' key={i + 1}>
+                              <input onChange={(event) => handleInputNumeroChange(i, event)} value={numeros[i] || ''} type='text' placeholder='' />
+                              <label>Número do Voto - {i + 1} </label>
+                            </div>
+                            <div className='input-file wd-35' key={i + 1}>
                               <input onChange={(event) => handleInputFileChange(i, event)} type='file' placeholder='' />
                               <label>Arquívo</label>
                               <p>{imagens[i] ? imagens[i].name : `Foto da Chapa - ${i + 1}`}</p>
@@ -270,7 +294,7 @@ const Erro = () => {
                   )}
                   
                 </div>
-                <button className='ml-0 mt-13 mb-15' onClick={() => salvarChapas(escolaDaEleicao, chapas, imagens)}>Salvar</button>
+                <button className='ml-0 mt-13 mb-15' onClick={() => salvarChapas(escolaDaEleicao, chapas, imagens, numeros)}>Salvar</button>
               </div>
             </>
           )}

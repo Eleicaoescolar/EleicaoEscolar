@@ -15,6 +15,23 @@ import { auth } from './firebase/login';
 import { getCookie, limparCookies, setCookie, deleteCookie } from './firebase/cookies';
 
 
+const NavbarWithRouter = () => {
+  const location = useLocation();
+
+  // Função para verificar se a rota atual é '/painel/urna#expanded'
+  const isUrnaExpandedRoute = () => {
+    return location.pathname === '/painel/urna' && location.hash === '#expanded';
+  }
+
+  return (
+    <div>
+      {/* Renderiza o Navbar apenas se não for a rota 'painel/urna#expanded' */}
+      {!isUrnaExpandedRoute() && <Navbar />}
+    </div>
+  );
+}
+
+
 const App = () => {
 
   const logado = getCookie('logado');
@@ -39,7 +56,6 @@ const App = () => {
   }
   
 
-
   return (
     <Router>
       <Routes>
@@ -49,7 +65,7 @@ const App = () => {
           path="/painel/*"
           element={
             <div>
-              <Navbar />
+              <NavbarWithRouter />
               <Routes>
                 <Route path="/" element={<Inicio />} />
                 <Route path="/inicio" element={<Inicio />} />

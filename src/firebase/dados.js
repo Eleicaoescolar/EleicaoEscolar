@@ -20,7 +20,7 @@ const ANO = localStorage.getItem('ano');
 const email = getCookie('email');
 
 const lerChapas = async (escola) => {
-    const dados = { chapas: [], imagens: [] };
+    const dados = { chapas: [], imagens: [], numeros: [] };
     const ler = new Promise( async (resolve, reject) => {
         try {
             
@@ -35,7 +35,9 @@ const lerChapas = async (escola) => {
                 data.docs.map((val) => {
                     const chapa = val.data().nome;
                     const imagem = val.data().imagem;
+                    const numero = val.data().numero;
                     dados.chapas.push(chapa);
+                    dados.numeros.push(numero);
                     dados.imagens.push(imagem ? imagem : null);
                 });
                 resolve(dados);
@@ -116,7 +118,7 @@ const salvarInformacoesEleicao = async (escola, descricao) => {
     return salvar;
 };
 
-const salvarChapas = async (escola, chapas, imagensChapas) => {
+const salvarChapas = async (escola, chapas, imagensChapas, numeros) => {
     try {
         if (!escola) {
             Swal({
@@ -125,9 +127,17 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
             });
             return false;
         }
-
+        
         const chapasPromise = chapas.map(async (chapa, index) => {
-            
+            if (chapa === 'branco') {
+                Swal({
+                    title: 'Não pode criar uma chapa com o nome "branco"!',
+                    icon: 'error',
+                });
+                return false;
+            }
+            const numeroChapa = numeros[index];
+
             const dado = await db.collection(ANO)
             .doc('usuarios')
             .collection(email)
@@ -141,7 +151,7 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
                 const storageRef = storage.ref(`${ANO}/${escola}/chapas/${imagensChapas[index].name}`);
                 await storageRef.put(imagensChapas[index]); // Faça o upload real da imagem para o armazenamento
                 const imageUrl = await storageRef.getDownloadURL();
-
+                
                 if (dado.exists) {
                     await db.collection(ANO)
                     .doc('usuarios')
@@ -154,6 +164,7 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
                     .update({
                         nome: chapa,
                         imagem: imageUrl,
+                        numero: numeroChapa,
                     });
                 } else {
                     await db.collection(ANO)
@@ -167,6 +178,7 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
                     .set({
                         nome: chapa,
                         imagem: imageUrl,
+                        numero: numeroChapa,
                     });
                 }
 
@@ -183,6 +195,7 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
                     .doc(chapa)
                     .update({
                         nome: chapa,
+                        numero: numeroChapa,
                     });
                 } else {
                     await db.collection(ANO)
@@ -195,6 +208,7 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
                     .doc(chapa)
                     .set({
                         nome: chapa,
+                        numero: numeroChapa,
                     });
                 }
                 
@@ -212,6 +226,86 @@ const salvarChapas = async (escola, chapas, imagensChapas) => {
         });
 
         return true;
+    } catch (error) {
+        console.error('Erro ao salvar informações:', error.message);
+        return false;
+    }
+};
+
+const enviarVoto = async (escola, chapa, voto) => {
+    try {
+        
+        const chapaRef = db.collection(ANO)
+        .doc('usuarios')
+        .collection(email)
+        .doc(email)
+        .collection('eleicoes')
+        .doc(escola)
+        .collection('chapas')
+        .doc(chapa);
+
+        const doc = await chapaRef.get();
+        if (doc.exists) {
+
+            const numeroDeVoto = doc.data().numero;
+            if (numeroDeVoto === voto) {
+                
+                const votosAtuais = doc.data().votos || 0;
+                const novosVotos = votosAtuais + 1;
+    
+                await chapaRef.update({
+                    votos: novosVotos
+                });
+    
+                return true;    
+            } else {
+                return false;
+            }
+
+
+        } else {
+            console.log('Chapa não encontrada.');
+            return false;
+        }
+
+    } catch (error) {
+        console.error('Erro ao salvar informações:', error.message);
+        return false;
+    }
+};
+
+
+const enviarVotoBranco = async (escola) => {
+    try {
+        
+        const docRef = db.collection(ANO)
+        .doc('usuarios')
+        .collection(email)
+        .doc(email)
+        .collection('eleicoes')
+        .doc(escola)
+        .collection('chapas')
+        .doc('branco');
+
+        const doc = await docRef.get();
+        if (doc.exists) {
+
+            const votosAtuais = doc.data().votos || 0;
+            const novosVotos = votosAtuais + 1;
+
+            await docRef.update({
+                votos: novosVotos
+            });
+
+            return true;    
+        
+        } else {
+            await docRef.set({
+                votos: 1,
+            });
+            return true;   
+        }
+
     } catch (error) {
         console.error('Erro ao salvar informações:', error.message);
         return false;
@@ -319,4 +413,4 @@ const excluirChapa = async (escola, chapa) => {
 };
 
 
-export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola }
+export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola, enviarVoto, enviarVotoBranco }

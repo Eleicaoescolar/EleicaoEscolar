@@ -226,4 +226,4 @@ const authCadastro = async (email, senha) => {
   };
 
 
-export { auth, fazerLogin, fazerCadastro }
+export { auth, db, fazerLogin, fazerCadastro }

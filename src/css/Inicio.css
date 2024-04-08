@@ -203,6 +203,32 @@
     margin: 12.5px auto;
 }
 
+.content-inicio .card .gerenciar .inputs {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 0px;
+    padding: 0px;
+    margin: 15px 0px;
+}
+
+.content-inicio .card .gerenciar .inputs .input {
+    width: auto;
+    min-width: 26%;
+    max-width: 32%;
+    margin: 0px 12px 5px 0px;
+}
+
+.content-inicio .card .gerenciar .inputs .input-file {
+    width: auto;
+    min-width: 35%;
+    margin: 0px 0px 5px 0px;
+}
+
 .content-inicio .card .gerenciar button {
     width: max-content;
     height: 50px;
