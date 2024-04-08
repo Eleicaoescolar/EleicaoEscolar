@@ -6,6 +6,8 @@
     flex-direction: column;
     align-items: center;
     background: var(--eight);
+    position: relative;
+    top: 70px;
 }
 
 .content-inicio {

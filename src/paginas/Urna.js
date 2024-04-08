@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getCookie, limparCookies, setCookie, deleteCookie } from '../firebase/cookies';
 import { enviarVoto, enviarVotoBranco, lerChapas, lerEscolas } from '../firebase/dados';
 import { auth, db } from '../firebase/login';
@@ -238,10 +238,16 @@ const Urna = () => {
     audio.play();
   }
   
+  
+  const location = useLocation();
 
+  // Função para verificar se a rota atual é '/painel/urna#expanded'
+  const isUrnaExpandedRoute = () => {
+    return location.pathname === '/painel/urna' && location.hash === '#expanded';
+  }
 
   return (
-    <main className="container-urna">
+    <main className={`container-urna ${isUrnaExpandedRoute() && 'sem-navbar'}`}>
 
       {content && (
           <section className='content-urna'>
@@ -273,7 +279,10 @@ const Urna = () => {
                               <p>{val.descricao}</p>
                             </div>
                             {val.status === '333' ? (
-                                <button className='ml-auto mr-10 btn-laranja' onClick={() => voltarEleicao(val.escola, val.descricao)}> Voltar a Eleição</button>
+                                <>
+                                  <button className='ml-auto mr-10 btn-laranja' onClick={() => voltarEleicao(val.escola, val.descricao)}> Continuar Eleição </button>
+                                  <button className='ml-15 mr-0'> Finalizar Eleição </button>
+                                </>
                             ) : val.status === '222' ? (
                                 <button className='ml-auto mr-10 btn-vermelho' onClick={() => 
                                   Swal(
@@ -308,7 +317,7 @@ const Urna = () => {
         <section className='urna'>
         
           <article className='tela'>
-            <h1>Eleição Escolar - 1.0.0</h1>
+            <h1>Eleição Escolar - 0.2.1</h1>
             <div className='linha'></div>
             <div className='wd-100 flex justify-content-between'>
               {resultadoVoto ? (

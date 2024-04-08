@@ -7,8 +7,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
+    position: fixed;
     top: 0px;
+    left: 0px;
     background: var(--white);
     z-index: 400;
     color: var(--three);
