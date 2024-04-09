@@ -19,7 +19,7 @@ const Urna = () => {
       if (!user) {
         localStorage.clear();
         limparCookies();
-        window.location.href = "/login";
+        window.location.href = "/logar";
       } else {
         const email = await user.email;
         const emailLocal = await getCookie('email');
@@ -196,29 +196,47 @@ const Urna = () => {
     setNomeDaChapa(chapa);
     setUrlDaImagem(imagem);
   }
-
+  
+  const [botaoDisponivel, setBtnDisponivel] = useState(true);
+  
   const confirmarVoto = async () => {
+    if (!botaoDisponivel || !escolaDaEleicao || !nomeDaChapa || !voto) {
+      return;
+    }
+
     try {
-      if (!escolaDaEleicao || !nomeDaChapa || !voto) {
-        return;
-      }
+      setBtnDisponivel(false);
+
       const resposta = await enviarVoto(escolaDaEleicao, nomeDaChapa, voto);
       if (resposta) {
         concluirVoto();
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+        setBtnDisponivel(true);
+      }, 4000);
     }
-  }
+  };
 
   const confirmarVotoBranco = async () => {
+    if (!botaoDisponivel) {
+      return;
+    }
+    
     try {
+      setBtnDisponivel(false);
       const resposta = await enviarVotoBranco(escolaDaEleicao);
       if (resposta) {
         concluirVoto();
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+          setBtnDisponivel(true);
+      }, 4000);
     }
   }
 
@@ -246,6 +264,30 @@ const Urna = () => {
     return location.pathname === '/painel/urna' && location.hash === '#expanded';
   }
 
+  const finalizarEleicao = async (escola) => {
+    await Swal({
+      title: 'Você deseja finalizar essa eleição? Essa ação é irreversível!',
+      icon: 'warning',
+      buttons: {
+        confirm: 'Sim',
+        cancel: 'Não',
+      },
+    }).then( async (resposta) => {
+      if (resposta) {
+        await db.collection(ANO)
+        .doc('usuarios')
+        .collection(email)
+        .doc(email)
+        .collection('eleicoes')
+        .doc(escola).update({
+          status: '000',
+        });
+
+        await window.location.reload();
+      }
+    });
+  }
+
   return (
     <main className={`container-urna ${isUrnaExpandedRoute() && 'sem-navbar'}`}>
 
@@ -260,7 +302,7 @@ const Urna = () => {
               <article className='card'>
                 {/* SOBRE */}
                 <div onClick={() => setCardEscolas(!cardEscolas)} className='sobre'>
-                  <h1> <div className='numero'> {escolas.length} </div> {`Gerenciar ${escolas.length === 1 ? 'Escola' : escolas.length > 1 ? 'Escolas' : 'Nenhuma escola encontrada'}`}</h1>
+                  <h1> <div className='numero'> {escolas.length} </div> {`Gerenciar ${escolas.length === 1 ? 'Eleição' : escolas.length > 1 ? 'Eleições' : 'Nenhuma escola encontrada'}`}</h1>
                   {cardEscolas ? (
                     <IonIcon icon={IoniconsIcons.chevronUp} />
                   ) : (
@@ -278,10 +320,11 @@ const Urna = () => {
                               <h1>{val.escola}</h1>
                               <p>{val.descricao}</p>
                             </div>
+                            {/* ELEIÇÃO EM ANDAMENTO */}
                             {val.status === '333' ? (
                                 <>
                                   <button className='ml-auto mr-10 btn-laranja' onClick={() => voltarEleicao(val.escola, val.descricao)}> Continuar Eleição </button>
-                                  <button className='ml-15 mr-0'> Finalizar Eleição </button>
+                                  <button className='ml-15 mr-0' onClick={() => finalizarEleicao(val.escola)}> Finalizar Eleição </button>
                                 </>
                             ) : val.status === '222' ? (
                                 <button className='ml-auto mr-10 btn-vermelho' onClick={() => 
@@ -291,12 +334,7 @@ const Urna = () => {
                                   })
                                 }> Dados incompletos </button>
                             ) : val.status === '000' ? (
-                              <button className='ml-auto mr-10 btn-verde' onClick={() => 
-                                Swal(
-                                  {title: 'Em breve!', 
-                                  icon: 'success',
-                                })
-                              }> Consultar Votos </button>
+                              <button className='ml-auto mr-10 btn-verde' onClick={() => navigate('/painel/consulta')}> Ir para consulta </button>
                             ) : (
                               <button className='ml-auto mr-10' onClick={() => iniciarEleicao(val.escola, val.descricao)}> Iniciar Eleição </button>
                             )}
@@ -307,7 +345,7 @@ const Urna = () => {
                 )}
               </article>
           ) : (
-            <></>
+            <h1 className='not-found'>Nenhuma Eleição Cadastrada!</h1>
           )}
 
         </section>

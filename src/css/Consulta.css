@@ -1,0 +1,283 @@
+.container-consulta {
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--eight);
+    position: relative;
+    top: 70px;
+}
+
+.content-consulta {
+    width: 92.5%;
+    max-width: 1100px;
+    height: auto;
+    margin: 20px auto;
+}
+
+
+.content-consulta .card {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid var(--seven);
+    background: var(--white);
+    margin: 35px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-consulta .card .sobre {
+    width: 95%;
+    max-width: 95%;
+    height: 55px;
+    max-height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin: 0px auto;
+    user-select: none;
+}
+
+.content-consulta .card .sobre ion-icon {
+    font-size: 28px;
+} .content-consulta .card .sobre ion-icon.verde {
+    color: var(--green);
+} .content-consulta .card .sobre ion-icon.vermelho {
+    color: var(--red);
+} .content-consulta .card .sobre ion-icon.amarelo {
+    color: var(--yellow);
+}
+
+.content-consulta .card .sobre h1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--three);
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-consulta .card .sobre h1 .numero {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    border-radius: 50%;
+    background: var(--bluelight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 8px 0px 0px;
+}
+
+.content-consulta .card .linha {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid var(--seven);
+}
+
+.content-consulta .card .gerenciar {
+    width: 95%;
+    max-width: 95%;
+    position: relative;
+    height: auto;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.content-consulta .card .gerenciar h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--three);
+    pointer-events: none;
+    display: block;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px auto;
+    cursor: text;
+    pointer-events: all;
+} .content-consulta .card .gerenciar h1 .azul {
+    color: var(--bluelight);
+    margin: 0px 4px;
+}
+
+.content-consulta .card .gerenciar p {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--three);
+    pointer-events: none;
+    display: block;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px auto;
+    cursor: text;
+    pointer-events: all;
+} .content-consulta .card .gerenciar p .azul {
+    color: var(--bluelight);
+    margin: 0px 4px;
+}
+
+
+
+.content-consulta .card .gerenciar .flex {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-consulta .card .gerenciar .formulario .input {
+    margin: 5px auto;
+}
+
+.content-consulta .card .gerenciar .formulario .input input {
+    margin: 12.5px auto;
+}
+
+.content-consulta .card .gerenciar button {
+    width: auto;
+    height: 50px;
+    padding: 0px 20px;
+    background: var(--blue);
+    box-shadow: 4px 4px 2px var(--bluelight);
+    border: 2px solid var(--blue);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: var(--white);
+    margin: 0px auto 0px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    transition: all .1s ease-in-out;
+} .content-consulta .card .gerenciar button:hover,
+ .content-consulta .card .gerenciar button:focus {
+    background: transparent;
+    color: var(--blue);
+    box-shadow: 4px 4px 2px var(--blue);
+}
+
+.content-consulta .card .gerenciar .btn-vermelho {
+    background: var(--red);
+    border: 2px solid var(--red);
+    box-shadow: 4px 4px 2px red;
+    cursor: not-allowed;
+} .content-consulta .card .gerenciar .btn-vermelho:hover,
+ .content-consulta .card .gerenciar .btn-vermelho:focus {
+    background: transparent;
+    color: var(--red);
+    box-shadow: 4px 4px 2px var(--red);
+}
+
+.content-consulta .card .gerenciar .btn-verde {
+    background: var(--green);
+    border: 2px solid var(--green);
+    box-shadow: 4px 4px 2px green;
+} .content-consulta .card .gerenciar .btn-verde:hover,
+ .content-consulta .card .gerenciar .btn-verde:focus {
+    background: transparent;
+    color: var(--green);
+    box-shadow: 4px 4px 2px var(--green);
+}
+
+
+.content-consulta .card .gerenciar .btn-laranja {
+    background: var(--orange);
+    border: 2px solid var(--orange);
+    box-shadow: 4px 4px 2px orange;
+} .content-consulta .card .gerenciar .btn-laranja:hover,
+ .content-consulta .card .gerenciar .btn-laranja:focus {
+    background: transparent;
+    color: var(--orange);
+    box-shadow: 4px 4px 2px var(--orange);
+}
+
+/* ESCOLAS */
+.content-consulta .card .gerenciar .column.escola {
+    width: max-content !important;
+    height: auto;
+    margin: 12.5px 0px;
+}
+
+.content-consulta .card .gerenciar .column.escola h1 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 2.5px 0px;
+    color: var(--three);
+}
+
+.content-consulta .card .gerenciar .column.escola p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 2.5px 0px;
+    color: var(--three);
+}
+
+
+.ganhadores {
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ganhadores table {
+    width: 90%;
+    max-width: 600px;
+    border: 2px solid var(--seven);
+    border-radius: 5px;
+    border-collapse: collapse;
+    margin: 25px 0px;
+}
+
+.ganhadores table tr {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: var(--five);
+}
+
+.ganhadores table tr th {
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    padding: 12px 0px;
+    color: var(--four);
+}
+
+.ganhadores table tr td {
+    align-items: center;
+    text-align: center;
+    padding: 10px 0px;
+    text-transform: uppercase;
+}
+
+.ganhadores table tr:nth-child(odd) {
+    background: var(--seven);
+}
+
+
+#my-canvas {
+    display: block;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    pointer-events: none;
+    z-index: 600;
+}

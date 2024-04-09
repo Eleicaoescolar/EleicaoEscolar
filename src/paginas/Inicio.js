@@ -9,8 +9,9 @@ import * as IoniconsIcons from 'ionicons/icons';
 import { getCookie, limparCookies, setCookie, deleteCookie } from '../firebase/cookies';
 import { auth } from '../firebase/login';
 import { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola } from '../firebase/dados';
+import { db, ANO } from '../firebase/login';
 
-const Erro = () => {
+const Inicio = () => {
 
   const logado = getCookie('logado');
   const pagina = window.location.pathname.slice(1);
@@ -148,6 +149,40 @@ const Erro = () => {
   useEffect(() => {
     lerDados();
   }, []);
+
+  const definirStatusEleicao = async (escola, status) => {
+    await db.collection(ANO)
+    .doc('usuarios')
+    .collection(email)
+    .doc(email)
+    .collection('eleicoes')
+    .doc(escola).update({
+      status: status,
+    });
+    return true;
+  }
+
+  const irParaUrnaEletronica = async (escola) => {
+    const docRef = await db.collection(ANO)
+    .doc('usuarios')
+    .collection(email)
+    .doc(email)
+    .collection('eleicoes')
+    .doc(escola);
+
+    const doc = await docRef.get();
+    if (doc.exists) {
+        const status = await doc.data().status;
+        if (status === '222') {
+          await docRef.update({
+            status: '111',
+          });
+        }
+    }
+
+    await navigate('/painel/urna');
+  }
+
 
   return (
     <main className="container-inicio">
@@ -325,8 +360,8 @@ const Erro = () => {
                   ))}
                   <p></p>
                 </div>
-                <button className='ml-0 mt-15 mb-20' onClick={() => navigation('/painel/urna')}>
-                  Ir para Urna Eletrônica
+                <button className='ml-0 mt-15 mb-20' onClick={ async () => irParaUrnaEletronica(escolaDaEleicao)}>
+                  Finalizar Dados
                 </button>
               </div>
             </>
@@ -337,7 +372,7 @@ const Erro = () => {
         )}
 
         {/* AREA DE PERIGO */}
-        {nomeEscola ? (
+        {escolaDaEleicao ? (
           <article className='card vermelho'>
             {/* SOBRE */}
             <div className='sobre cursor-default pointer-events-all'>
@@ -370,4 +405,4 @@ const Erro = () => {
 };
 
 
-export default Erro;
+export default Inicio;

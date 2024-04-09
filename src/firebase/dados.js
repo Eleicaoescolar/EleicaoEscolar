@@ -33,9 +33,13 @@ const lerChapas = async (escola) => {
             .collection('chapas')
             .onSnapshot((data) => {
                 data.docs.map((val) => {
+                    const votoBranco = val.id;
                     const chapa = val.data().nome;
                     const imagem = val.data().imagem;
                     const numero = val.data().numero;
+                    if (votoBranco === 'branco') {
+                        return false;
+                    }
                     dados.chapas.push(chapa);
                     dados.numeros.push(numero);
                     dados.imagens.push(imagem ? imagem : null);
@@ -72,6 +76,38 @@ const lerEscolas = async () => {
                     });
                 });
                 resolve(escolas);
+            });
+        } catch (error) {
+            console.error('Erro ao coletar dados:', error.message);
+        }
+    });
+    return ler;
+}
+
+
+const lerEleicoesFinalizadas = async () => {
+    var eleicoes = [];
+    const ler = new Promise( async (resolve, reject) => {
+        try {
+            await db.collection(ANO)
+            .doc('usuarios')
+            .collection(email)
+            .doc(email)
+            .collection('eleicoes')
+            .onSnapshot((data) => {
+                data.docs.map((val) => {
+                    const escola = val.data().escola;
+                    const descricao = val.data().descricao;
+                    const status = val.data().status;
+                    if (status === '000') {
+                        eleicoes.push({
+                            escola,
+                            descricao,
+                            status,
+                        });
+                    }
+                });
+                resolve(eleicoes);
             });
         } catch (error) {
             console.error('Erro ao coletar dados:', error.message);
@@ -312,6 +348,24 @@ const enviarVotoBranco = async (escola) => {
     }
 };
 
+async function deleteImagensStorage(directoryRef) {
+    try {
+        // Listar todos os itens no diretório
+        const items = await directoryRef.listAll();
+
+        // Excluir todos os itens
+        await Promise.all(items.items.map(async (item) => {
+            await item.delete();
+        }));
+
+        // Excluir a pasta em si
+        await directoryRef.delete();
+
+        console.log('Diretório e todos os itens foram excluídos com sucesso.');
+    } catch (error) {
+        console.error('Ocorreu um erro ao excluir o diretório:', error);
+    }
+}
 
 const excluirEscola = async (escola) => {
 
@@ -325,30 +379,41 @@ const excluirEscola = async (escola) => {
             },
         }).then( async (resposta) => {
             if (resposta) {
-                
-                const dado = await db.collection(ANO)
-                .doc('usuarios')
-                .collection(email)
-                .doc(email)
-                .collection('eleicoes')
-                .doc(escola).get();
-
-                if (dado.exists) {
-                    await dado.ref.delete();
-                    await Swal({
-                        title: 'Eleição excluída com sucesso!',
-                        icon: 'success',
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                } else {
+                try {
+                    const eleicaoRef = db.collection(ANO)
+                        .doc('usuarios')
+                        .collection(email)
+                        .doc(email)
+                        .collection('eleicoes')
+                        .doc(escola);
+            
+                    const eleicaoSnapshot = await eleicaoRef.get();
+            
+                    if (eleicaoSnapshot.exists) {
+                        const imagensRef = await storage.ref(`${ANO}/${escola}`)
+                        await deleteImagensStorage(imagensRef);
+                        await eleicaoRef.delete();
+                        await Swal({
+                            title: 'Eleição excluída com sucesso!',
+                            icon: 'success',
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal({
+                            title: `Eleição da escola ${escola} não existe!`,
+                            icon: 'error',
+                        });
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir eleição:', error);
                     Swal({
-                        title: `Eleição da escola ${escola} não existe!`,
+                        title: 'Erro ao excluir eleição!',
+                        text: 'Por favor, tente novamente mais tarde.',
                         icon: 'error',
                     });
                 }
-    
-            }
+            }            
         });
 
         
@@ -413,4 +478,4 @@ const excluirChapa = async (escola, chapa) => {
 };
 
 
-export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola, enviarVoto, enviarVotoBranco }
+export { lerEscolas, lerChapas, salvarChapas, salvarInformacoesEleicao, excluirChapa, excluirEscola, enviarVoto, enviarVotoBranco, lerEleicoesFinalizadas }

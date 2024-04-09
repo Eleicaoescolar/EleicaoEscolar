@@ -36,13 +36,13 @@ const Erro = () => {
             </div>
             
             <nav className='links'>
-                <Link className={pagina === 'painel' || pagina === 'painel/inicio' ? 'selecionado' : ''} to="/painel/inicio">
+                <Link className={pagina === 'painel' || pagina === 'painel/' || pagina === 'painel/inicio' ? 'selecionado' : ''} to="/painel/inicio">
                     Início
                 </Link>
-                <Link className={pagina === 'painel/urna' ? 'selecionado' : ''} to="/painel/urna">
+                <Link className={pagina === 'painel/urna' || pagina === 'painel/urna/' ? 'selecionado' : ''} to="/painel/urna">
                     Urna Eletrônica
                 </Link>
-                <Link className={pagina === 'painel/consulta' ? 'selecionado' : ''} to="/painel/consulta">
+                <Link className={pagina === 'painel/consulta' || pagina === 'painel/consulta/' ? 'selecionado' : ''} to="/painel/consulta">
                     Consulta
                 </Link>
             </nav>

@@ -69,7 +69,7 @@ const Login = () => {
       if (!user) {
         localStorage.clear();
         limparCookies();
-        window.location.href = "/login";
+        window.location.href = "/logar";
       } else {
         const email = await user.email;
         const emailLocal = await getCookie('email');
